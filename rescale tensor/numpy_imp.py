@@ -31,6 +31,12 @@ def rescale_tf(input_image,in_range='image', out_range='dtype'):
   tf.global_variables_initializer().run()
   imin, imax = intensity_range(input_image,dtype, in_range)
   omin, omax = intensity_range(input_image,dtype,out_range,clip_negative=(imin >= 0))
+  input_image = tf.dtypes.cast(
+      input_image,
+      "float",
+      name=None
+  )
+
   image=tf.clip_by_value(
     input_image,
     imin,
@@ -42,6 +48,7 @@ def rescale_tf(input_image,in_range='image', out_range='dtype'):
   if imin!=imax:
     image=(image-imin)/float(imax-imin)
   output=(image * (omax - omin) + omin).eval()
+  output=np.array(output,dtype=dtype)
   sess.close()
   return output
 
