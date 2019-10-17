@@ -26,6 +26,19 @@ DTYPE_RANGE.update({'uint10': (0, 2 ** 10 - 1),
 
 def rescale_tf(input_image,in_range='image', out_range='dtype'):
   dtype = input_image.dtype
+  if in_range == "image" or in_range == 'dtype' or (len(in_range) == 2 and type(in_range) == tuple):
+      pass
+  elif in_range in DTYPE_RANGE:
+      pass
+  else:
+      raise ValueError('Unsupported input to in_range', in_range)
+
+  if out_range == "image" or out_range == 'dtype' or (len(out_range) == 2 and type(out_range) == tuple):
+      pass
+  elif out_range in DTYPE_RANGE:
+      pass
+  else:
+      raise ValueError('Unsupported input to out_range', out_range)
   input_image = tf.constant(input_image)
   sess = tf.InteractiveSession()
   tf.global_variables_initializer().run()
