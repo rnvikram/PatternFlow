@@ -30,7 +30,7 @@ def rescale_tf(input_image,in_range='image', out_range='dtype'):
   sess = tf.InteractiveSession()
   tf.global_variables_initializer().run()
   imin, imax = intensity_range(input_image,dtype, in_range)
-  omin, omax = intensity_range(input_image,dtype,out_range,clip_negative=(imin.eval() >= 0))
+  omin, omax = intensity_range(input_image,dtype,out_range,clip_negative=(imin >= 0))
   image=tf.clip_by_value(
     input_image,
     imin,
@@ -38,13 +38,9 @@ def rescale_tf(input_image,in_range='image', out_range='dtype'):
     name=None
 )
 
-  equal=tf.math.equal(
-      imin,
-      imax,
-      name=None
-  )
-  if equal!=True:
-    image = tf.math.divide(tf.math.subtract(image ,imin), tf.math.subtract(imax ,imin))
+
+  if imin!=imax:
+    image=(image-imin)/imax-imin
   output=(image * (omax - omin) + omin).eval()
   sess.close()
   return output
@@ -56,8 +52,8 @@ def intensity_range(image,dtype, range_values='image', clip_negative=False):
     if range_values == 'dtype':
         range_values = dtype
     if str(range_values) == 'image':
-        i_min = tf.reduce_min(image)
-        i_max = tf.reduce_max(image)
+        i_min = tf.reduce_min(image).eval()
+        i_max = tf.reduce_max(image).eval()
     elif  str(range_values) in DTYPE_RANGE:
         i_min, i_max = DTYPE_RANGE[str(range_values)]
         if clip_negative==True:
