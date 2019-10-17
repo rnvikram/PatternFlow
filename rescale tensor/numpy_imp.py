@@ -1,4 +1,6 @@
 import tensorflow as tf
+import numpy as np
+
 _integer_types = (np.byte, np.ubyte,          # 8 bits
                   np.short, np.ushort,        # 16 bits
                   np.intc, np.uintc,          # 16 or 32 or 64 bits
