@@ -59,14 +59,15 @@ As soon as the modeule is called, it builds the dictionary with supported data t
 
 ## Visualisation 
 
-######camera = data.camera()
-######camera=np.array(camera)
+camera = data.camera()
 
-######plt.imshow(camera)
+camera=np.array(camera)
+
+plt.imshow(camera)
 
 ![Before scaled](https://i.ibb.co/Zc6xvsh/download.png)
 
-######plt.imshow(rescale_tf(camera,out_range=(0,5)))
+plt.imshow(rescale_tf(camera,out_range=(0,5)))
 
 ![After being scaled](https://i.ibb.co/BVnVJMx/download-1.png)
 
