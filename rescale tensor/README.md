@@ -1,10 +1,10 @@
 ## Rescale Intensity
 
-####Description:
+###Description:
 The function takes an array as input and rescales the values in it based on the parameters passed to it. The options avaiable for the input range and out range are the same. It clips the input array based on the the chosen parametrs and then rescales the array based on the chosen out_range. The output min and max The output is an numpy array with the shape and data type but scaled intensities. 
 
 
-####Supported rescale types:
+###Supported rescale types:
 
 1. Tuple with min and max: It rescales the values in the array using that range
 2. "image": Uses the input's max and min to rescale the values in the array
@@ -44,4 +44,22 @@ The function takes an array as input and rescales the values in it based on the 
 * 'uint64': (0, 18446744073709551615),
 * 'uint8': (0, 255)
 
-Example: rescale_intensity([1,2,3,4],out_range=(0,1)) gives [0.        , 0.33333334, 0.66666669, 1.        ]
+
+###Working:
+As soon as the modeule is called, it builds the dictionary with supported data types and the range of values they support. The algorithm starts with setting a imin and imax value based on the parameters passed. If there is no range value passed, input range is chosen as the image range and output range is chosen as the datatype range. intensity_range returns the min and max values based on the paramters passed. These values are used to calculate the min and max for input and output. Once calculated, the array is cliped based on the input min and max values. The output is calculated by scaling based on the out min and max values. 
+
+### Examples
+1. rescale_intensity([1,2,3,4],out_range=(0,1)) -->  [0.        , 0.33333334, 0.66666669, 1.        ]
+2. rescale_intensity(np.array([51, 102, 153], dtype=np.uint8)) -->  [  0 127 255]
+3. rescale_intensity(np.array([51, 102, 153], dtype=np.float16)) -->  [  0 0.5 1]
+4. rescale_intensity(np.array([51, 102, 153], dtype=np.float16),in_range=(0,102)) --> [0.5 1.  1. ]
+5. rescale_intensity(np.array([51, 102, 153], dtype=np.unit8),in_range=(0,102)) --> [127 255 255]
+6. rescale_intensity(np.array([51, 102, 153], dtype=np.unit8),out_range=(0,102)) --> [  0  51 102]
+
+
+
+
+
+
+
+
