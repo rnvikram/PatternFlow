@@ -1,16 +1,25 @@
 import tensorflow as tf
-integer_ranges={
- "<dtype: 'float16'>": (-1, 1),
- "<dtype: 'float32'>": (-1, 1),
- "<dtype: 'float64'>": (-1, 1),
- "<dtype: 'int16'>": (-32768, 32767),
- "<dtype: 'int32'>": (-2147483648, 2147483647),
- "<dtype: 'int64'>": (-9223372036854775808, 9223372036854775807),
- "<dtype: 'int8'>": (-128, 127),
- "<dtype: 'uint16'>": (0, 65535),
- "<dtype: 'uint32'>": (0, 4294967295),
- "<dtype: 'uint64'>": (0, 18446744073709551615),
- "<dtype: 'uint8'>": (0, 255)}
+_integer_types = (np.byte, np.ubyte,          # 8 bits
+                  np.short, np.ushort,        # 16 bits
+                  np.intc, np.uintc,          # 16 or 32 or 64 bits
+                  np.int_, np.uint,           # 32 or 64 bits
+                  np.longlong, np.ulonglong)  # 64 bits
+_integer_ranges = {t: (np.iinfo(t).min, np.iinfo(t).max)
+                   for t in _integer_types}
+dtype_range = {np.bool_: (False, True),
+               np.bool8: (False, True),
+               np.float16: (-1, 1),
+               np.float32: (-1, 1),
+               np.float64: (-1, 1)}
+dtype_range.update(_integer_ranges)
+
+DTYPE_RANGE = dtype_range.copy()
+DTYPE_RANGE.update((d.__name__, limits) for d, limits in dtype_range.items())
+DTYPE_RANGE.update({'uint10': (0, 2 ** 10 - 1),
+                    'uint12': (0, 2 ** 12 - 1),
+                    'uint14': (0, 2 ** 14 - 1),
+                    'bool': dtype_range[np.bool_],
+                    'float': dtype_range[np.float64]})
 
 DTYPE_RANGE = integer_ranges.copy()
 
@@ -33,15 +42,20 @@ def rescale_tf(input_image,in_range='image', out_range='dtype'):
   return output
 
 
+
 def intensity_range(image,dtype, range_values='image', clip_negative=False):
+    #print("IT")
     if range_values == 'dtype':
         range_values = dtype
     if str(range_values) == 'image':
         i_min = tf.reduce_min(image)
         i_max = tf.reduce_max(image)
-
-    elif str(range_values).strip("") in DTYPE_RANGE:
-        i_min, i_max = DTYPE_RANGE[str(range_values).strip("")]
+    elif  str(range_values) in DTYPE_RANGE:
+        i_min, i_max = DTYPE_RANGE[str(range_values)]
+        if clip_negative==True:
+            i_min = 0
+    elif  range_values in DTYPE_RANGE:
+        i_min, i_max = DTYPE_RANGE[range_values]
         if clip_negative==True:
             i_min = 0
     else:
