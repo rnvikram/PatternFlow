@@ -57,13 +57,17 @@ As soon as the modeule is called, it builds the dictionary with supported data t
 6. rescale_intensity(np.array([51, 102, 153], dtype=np.unit8),out_range=(0,102)) --> [0, 51, 102]
 
 
-camera = data.camera()
-camera=np.array(camera)
+## Visualisation 
 
-plt.imshow(camera)
+######camera = data.camera()
+######camera=np.array(camera)
+
+######plt.imshow(camera)
+
 ![Before scaled](https://i.ibb.co/Zc6xvsh/download.png)
 
-plt.imshow(rescale_tf(camera,out_range=(0,5)))
+######plt.imshow(rescale_tf(camera,out_range=(0,5)))
+
 ![After being scaled](https://i.ibb.co/BVnVJMx/download-1.png)
 
 
