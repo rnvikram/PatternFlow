@@ -67,7 +67,7 @@ plt.imshow(camera)
 
 ![Before scaled](https://i.ibb.co/Zc6xvsh/download.png)
 
-plt.imshow(rescale_tf(camera,out_range=(0,5)))
+plt.imshow(rescale_intensity(camera,out_range=(0,5)))
 
 ![After being scaled](https://i.ibb.co/BVnVJMx/download-1.png)
 
