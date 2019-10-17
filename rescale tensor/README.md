@@ -2,10 +2,10 @@
 
 The function takes an array as input and rescales the values in it based on the parameters passed to it. The options avaiable for the input range and out range are the same.
 
-Tuple with min and max: It rescales the values in the array using that range
-"image": Uses the input's max and min to rescale the values in the array
-"dtype": Uses the input's dtyoe to fix max and min values which is then used to rescale the values in the array
-dtype-name: Uses the min and max of the dtype specified. 
+1. Tuple with min and max: It rescales the values in the array using that range
+2. "image": Uses the input's max and min to rescale the values in the array
+3. "dtype": Uses the input's dtyoe to fix max and min values which is then used to rescale the values in the array
+4. dtype-name: Uses the min and max of the dtype specified. 
 
 
 * numpy.bool_: (False, True),

@@ -19,26 +19,23 @@ def rescale_tf(input_image,in_range='image', out_range='dtype'):
   input_image = tf.constant(input_image)
   sess = tf.InteractiveSession()
   tf.global_variables_initializer().run()
-  imin, imax = intensity_range(input_image, in_range)
-  omin, omax = intensity_range(input_image,out_range,clip_negative=(imin.eval() >= 0))
-  #print("Calculated wit new omax, omin")
+  imin, imax = intensity_range(input_image,dtype, in_range)
+  omin, omax = intensity_range(input_image,dtype,out_range,clip_negative=(imin.eval() >= 0))
   image=tf.clip_by_value(
     input_image,
     imin,
     imax,
     name=None
 )
-  #print("Clip is done")
-  #print(tf.math.subtract(imax ,imin))
   image = tf.math.divide(tf.math.subtract(image ,imin), tf.math.subtract(imax ,imin))
   output=(image * (omax - omin) + omin).eval()
   sess.close()
   return output
 
 
-def intensity_range(image, range_values='image', clip_negative=False):
+def intensity_range(image,dtype, range_values='image', clip_negative=False):
     if range_values == 'dtype':
-        range_values = image.dtype
+        range_values = dtype
     if str(range_values) == 'image':
         i_min = tf.reduce_min(image)
         i_max = tf.reduce_max(image)
