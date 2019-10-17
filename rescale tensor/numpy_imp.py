@@ -37,7 +37,14 @@ def rescale_tf(input_image,in_range='image', out_range='dtype'):
     imax,
     name=None
 )
-  image = tf.math.divide(tf.math.subtract(image ,imin), tf.math.subtract(imax ,imin))
+
+  equal=tf.math.equal(
+      imin,
+      imax,
+      name=None
+  )
+  if equal!=True:
+    image = tf.math.divide(tf.math.subtract(image ,imin), tf.math.subtract(imax ,imin))
   output=(image * (omax - omin) + omin).eval()
   sess.close()
   return output
