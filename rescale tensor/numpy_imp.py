@@ -3,7 +3,7 @@ import numpy as np
 
 
 
-#Building the dictionary of 
+#Building the dictionary of supported data types and the range they supported by each type
 _integer_types = (np.byte, np.ubyte,
                   np.short, np.ushort,
                   np.intc, np.uintc,
@@ -26,6 +26,46 @@ DTYPE_RANGE.update({'uint10': (0, 2 ** 10 - 1),
                     'bool': dtype_range[np.bool_],
                     'float': dtype_range[np.float64]})
 
+
+def intensity_range(image,dtype, range_values='image', clip_negative=False):
+    """
+
+    :param image(np array): Input array which is used to pull the min and max value if needed
+    :param dtype(str or dtype): Data type of the input array
+    :param range_values: Range value identifier to select the min and max value
+                         "image"-> The min and max of the image is chosen
+                         "dtype"-> The min and max supported by dtype is chosen
+                         tuple-> Used as the range
+    :param clip_negative(bool): identifier to check if the vlue have to cliped to 0
+
+    :return:
+    i_min and i_max which is the range based on the range_values given
+
+    example:
+    intensity_range([0,5,10],float,range_values='image',clip_negative=False)  -> 0,10
+    intensity_range([0,5,10],float,range_values='dtype',clip_negative=False)  -> 0,1
+    intensity_range([-5,5,10],float,range_values='image',clip_negative=False) -> -5,10
+    intensity_range([-5,5,10],float,range_values='image',clip_negative=True)  -> 0,10
+
+    """
+    
+
+    if range_values == 'dtype':
+        range_values = dtype
+    if str(range_values) == 'image':
+        i_min = tf.reduce_min(image).eval()
+        i_max = tf.reduce_max(image).eval()
+    elif  str(range_values) in DTYPE_RANGE:
+        i_min, i_max = DTYPE_RANGE[str(range_values)]
+        if clip_negative==True:
+            i_min = 0
+    elif  range_values in DTYPE_RANGE:
+        i_min, i_max = DTYPE_RANGE[range_values]
+        if clip_negative==True:
+            i_min = 0
+    else:
+        i_min, i_max = range_values
+    return i_min, i_max
 
 
 
@@ -61,20 +101,3 @@ def rescale_tf(input_image,in_range='image', out_range='dtype'):
 
 
 
-def intensity_range(image,dtype, range_values='image', clip_negative=False):
-    if range_values == 'dtype':
-        range_values = dtype
-    if str(range_values) == 'image':
-        i_min = tf.reduce_min(image).eval()
-        i_max = tf.reduce_max(image).eval()
-    elif  str(range_values) in DTYPE_RANGE:
-        i_min, i_max = DTYPE_RANGE[str(range_values)]
-        if clip_negative==True:
-            i_min = 0
-    elif  range_values in DTYPE_RANGE:
-        i_min, i_max = DTYPE_RANGE[range_values]
-        if clip_negative==True:
-            i_min = 0
-    else:
-        i_min, i_max = range_values
-    return i_min, i_max
