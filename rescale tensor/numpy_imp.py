@@ -1,11 +1,14 @@
 import tensorflow as tf
 import numpy as np
 
-_integer_types = (np.byte, np.ubyte,          # 8 bits
-                  np.short, np.ushort,        # 16 bits
-                  np.intc, np.uintc,          # 16 or 32 or 64 bits
-                  np.int_, np.uint,           # 32 or 64 bits
-                  np.longlong, np.ulonglong)  # 64 bits
+
+
+#Building the dictionary of 
+_integer_types = (np.byte, np.ubyte,
+                  np.short, np.ushort,
+                  np.intc, np.uintc,
+                  np.int_, np.uint,
+                  np.longlong, np.ulonglong)
 _integer_ranges = {t: (np.iinfo(t).min, np.iinfo(t).max)
                    for t in _integer_types}
 dtype_range = {np.bool_: (False, True),
@@ -22,6 +25,8 @@ DTYPE_RANGE.update({'uint10': (0, 2 ** 10 - 1),
                     'uint14': (0, 2 ** 14 - 1),
                     'bool': dtype_range[np.bool_],
                     'float': dtype_range[np.float64]})
+
+
 
 
 def rescale_tf(input_image,in_range='image', out_range='dtype'):

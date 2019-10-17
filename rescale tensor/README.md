@@ -1,14 +1,14 @@
 # Rescale Intensity
 
 ## Description:
-The function takes an array as input and rescales the values in it based on the parameters passed to it. The options avaiable for the input range and out range are the same. It clips the input array based on the the chosen parametrs and then rescales the array based on the chosen out_range. The output min and max The output is an numpy array with the shape and data type but scaled intensities. 
+The function takes an array as input and rescales the values in it based on the parameters passed to it. The options available for the input range and out range are the same. It clips the input array based on the chosen parameters and then rescales the array based on the chosen out_range. The output min and max The output is a numpy array with the shape and data type but scaled intensities. 
 
 
 ## Supported rescale types:
 
 1. Tuple with min and max: It rescales the values in the array using that range
 2. "image": Uses the input's max and min to rescale the values in the array
-3. "dtype": Uses the input's dtyoe to fix max and min values which is then used to rescale the values in the array
+3. "dtype": Uses the input's dtype to fix max and min values which is then used to rescale the values in the array
 4. dtype-name: Uses the min and max of the dtype specified. 
 
 
@@ -46,7 +46,7 @@ The function takes an array as input and rescales the values in it based on the 
 
 
 ## Working:
-As soon as the modeule is called, it builds the dictionary with supported data types and the range of values they support. The algorithm starts with setting a imin and imax value based on the parameters passed. If there is no range value passed, input range is chosen as the image range and output range is chosen as the datatype range. intensity_range returns the min and max values based on the paramters passed. These values are used to calculate the min and max for input and output. Once calculated, the array is cliped based on the input min and max values. The output is calculated by scaling based on the out min and max values. 
+As soon as the module is called, it builds the dictionary with supported data types and the range of values they support. The algorithm starts with setting an imin and imax value based on the parameters passed. If there is no range value passed, the input range is chosen as the image range and output range is chosen as the data type range. intensity_range returns the min and max values based on the parameters passed. These values are used to calculate the min and max for input and output. Once calculated, the array is clipped based on the input min and max values. The output is calculated by scaling based on the out min and max values. 
 
 ## Examples
 1. rescale_intensity([1,2,3,4],out_range=(0,1)) -->  [0., 0.33333334, 0.66666669, 1.]
@@ -70,12 +70,3 @@ plt.imshow(camera)
 plt.imshow(rescale_intensity(camera,out_range=(0,5)))
 
 ![After being scaled](https://i.ibb.co/BVnVJMx/download-1.png)
-
-
-
-
-
-
-
-
-
