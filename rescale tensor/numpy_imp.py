@@ -4,27 +4,26 @@ import numpy as np
 
 
 #Building the dictionary of supported data types and the range they supported by each type
-_integer_types = (np.byte, np.ubyte,
-                  np.short, np.ushort,
-                  np.intc, np.uintc,
-                  np.int_, np.uint,
-                  np.longlong, np.ulonglong)
-_integer_ranges = {t: (np.iinfo(t).min, np.iinfo(t).max)
-                   for t in _integer_types}
-dtype_range = {np.bool_: (False, True),
-               np.bool8: (False, True),
-               np.float16: (-1, 1),
-               np.float32: (-1, 1),
-               np.float64: (-1, 1)}
-dtype_range.update(_integer_ranges)
 
-DTYPE_RANGE = dtype_range.copy()
-DTYPE_RANGE.update((d.__name__, limits) for d, limits in dtype_range.items())
-DTYPE_RANGE.update({'uint10': (0, 2 ** 10 - 1),
-                    'uint12': (0, 2 ** 12 - 1),
-                    'uint14': (0, 2 ** 14 - 1),
-                    'bool': dtype_range[np.bool_],
-                    'float': dtype_range[np.float64]})
+
+DTYPE_RANGE =  {'bool': (False, True),
+ 'bool_': (False, True),
+ 'float': (-1, 1),
+ 'float16': (-1, 1),
+ 'float32': (-1, 1),
+ 'float64': (-1, 1),
+ 'int16': (-32768, 32767),
+ 'int32': (-2147483648, 2147483647),
+ 'int64': (-9223372036854775808, 9223372036854775807),
+ 'int8': (-128, 127),
+ 'uint10': (0, 1023),
+ 'uint12': (0, 4095),
+ 'uint14': (0, 16383),
+ 'uint16': (0, 65535),
+ 'uint32': (0, 4294967295),
+ 'uint64': (0, 18446744073709551615),
+ 'uint8': (0, 255)}
+
 
 
 def intensity_range(image,dtype, range_values='image', clip_negative=False):
