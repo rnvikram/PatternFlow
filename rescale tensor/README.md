@@ -49,12 +49,23 @@ The function takes an array as input and rescales the values in it based on the 
 As soon as the modeule is called, it builds the dictionary with supported data types and the range of values they support. The algorithm starts with setting a imin and imax value based on the parameters passed. If there is no range value passed, input range is chosen as the image range and output range is chosen as the datatype range. intensity_range returns the min and max values based on the paramters passed. These values are used to calculate the min and max for input and output. Once calculated, the array is cliped based on the input min and max values. The output is calculated by scaling based on the out min and max values. 
 
 ## Examples
-1. rescale_intensity([1,2,3,4],out_range=(0,1)) -->  [0.        , 0.33333334, 0.66666669, 1.        ]
-2. rescale_intensity(np.array([51, 102, 153], dtype=np.uint8)) -->  [  0 127 255]
-3. rescale_intensity(np.array([51, 102, 153], dtype=np.float16)) -->  [  0 0.5 1]
-4. rescale_intensity(np.array([51, 102, 153], dtype=np.float16),in_range=(0,102)) --> [0.5 1.  1. ]
-5. rescale_intensity(np.array([51, 102, 153], dtype=np.unit8),in_range=(0,102)) --> [127 255 255]
-6. rescale_intensity(np.array([51, 102, 153], dtype=np.unit8),out_range=(0,102)) --> [  0  51 102]
+1. rescale_intensity([1,2,3,4],out_range=(0,1)) -->  [0., 0.33333334, 0.66666669, 1.]
+2. rescale_intensity(np.array([51, 102, 153], dtype=np.uint8)) -->  [0, 127, 255]
+3. rescale_intensity(np.array([51, 102, 153], dtype=np.float16)) -->  [0, 0.5, 1]
+4. rescale_intensity(np.array([51, 102, 153], dtype=np.float16),in_range=(0,102)) --> [0.5, 1.,  1.]
+5. rescale_intensity(np.array([51, 102, 153], dtype=np.unit8),in_range=(0,102)) --> [127, 255, 255]
+6. rescale_intensity(np.array([51, 102, 153], dtype=np.unit8),out_range=(0,102)) --> [0, 51, 102]
+
+
+camera = data.camera()
+camera=np.array(camera)
+
+plt.imshow(camera)
+![Before scaled](https://i.ibb.co/Zc6xvsh/download.png)
+
+plt.imshow(rescale_tf(camera,out_range=(0,5)))
+![After being scaled](https://i.ibb.co/BVnVJMx/download-1.png)
+
 
 
 
