@@ -23,7 +23,6 @@ DTYPE_RANGE.update({'uint10': (0, 2 ** 10 - 1),
                     'bool': dtype_range[np.bool_],
                     'float': dtype_range[np.float64]})
 
-DTYPE_RANGE = integer_ranges.copy()
 
 def rescale_tf(input_image,in_range='image', out_range='dtype'):
   dtype = input_image.dtype
