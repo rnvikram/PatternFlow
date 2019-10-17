@@ -48,7 +48,7 @@ def intensity_range(image,dtype, range_values='image', clip_negative=False):
     intensity_range([-5,5,10],float,range_values='image',clip_negative=True)  -> 0,10
 
     """
-    
+
 
     if range_values == 'dtype':
         range_values = dtype
@@ -70,6 +70,26 @@ def intensity_range(image,dtype, range_values='image', clip_negative=False):
 
 
 def rescale_tf(input_image,in_range='image', out_range='dtype'):
+  """
+
+  :param input_image(np_array): Input array to be rescaled
+  :param in_range:  "image"-> If the range is to be chosen from the image
+                    "dtype"-> If the range of the dtype needs to be used
+                    tuple-> User defined range
+  :param out_range: "image"-> If the range is to be chosen from the image
+                    "dtype"-> If the range of the dtype needs to be used
+                    tuple-> User defined range
+  :return:
+  numpy array with values rescaled
+
+  Examples:
+    rescale_intensity([1,2,3,4],out_range=(0,1)) --> [0., 0.33333334, 0.66666669, 1.]
+    rescale_intensity(np.array([51, 102, 153], dtype=np.uint8)) --> [0, 127, 255]
+    rescale_intensity(np.array([51, 102, 153], dtype=np.float16)) --> [0, 0.5, 1]
+    rescale_intensity(np.array([51, 102, 153], dtype=np.float16),in_range=(0,102)) --> [0.5, 1., 1.]
+    rescale_intensity(np.array([51, 102, 153], dtype=np.unit8),in_range=(0,102)) --> [127, 255, 255]
+    rescale_intensity(np.array([51, 102, 153], dtype=np.unit8),out_range=(0,102)) --> [0, 51, 102]
+  """
   dtype = input_image.dtype
   if in_range == "image" or in_range == 'dtype' or (len(in_range) == 2 and type(in_range) == tuple):
       pass
