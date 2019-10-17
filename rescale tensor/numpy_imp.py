@@ -50,6 +50,7 @@ def rescale_tf(input_image,in_range='image', out_range='dtype'):
     image=(image-imin)/float(imax-imin)
   output=(image * (omax - omin) + omin).eval()
   output=np.array(output,dtype=dtype)
+  InteractiveSession.close()
   sess.close()
   return output
 

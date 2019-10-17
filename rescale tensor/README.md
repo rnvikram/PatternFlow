@@ -1,6 +1,10 @@
 ## Rescale Intensity
 
-The function takes an array as input and rescales the values in it based on the parameters passed to it. The options avaiable for the input range and out range are the same.
+####Description:
+The function takes an array as input and rescales the values in it based on the parameters passed to it. The options avaiable for the input range and out range are the same. It clips the input array based on the the chosen parametrs and then rescales the array based on the chosen out_range. The output min and max The output is an numpy array with the shape and data type but scaled intensities. 
+
+
+####Supported rescale types:
 
 1. Tuple with min and max: It rescales the values in the array using that range
 2. "image": Uses the input's max and min to rescale the values in the array
@@ -39,3 +43,5 @@ The function takes an array as input and rescales the values in it based on the 
 * 'uint32': (0, 4294967295),
 * 'uint64': (0, 18446744073709551615),
 * 'uint8': (0, 255)
+
+Example: rescale_intensity([1,2,3,4],out_range=(0,1)) gives [0.        , 0.33333334, 0.66666669, 1.        ]
