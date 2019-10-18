@@ -112,6 +112,7 @@ def rescale_tf(input_image,in_range='image', out_range='dtype'):
   image=tf.clip_by_value(input_image,imin,imax,name=None)
   if imin!=imax:
     image=(image-imin)/float(imax-imin)
+  image=tf.cast(image,dtype=str(dtype))
   output=(image * (omax - omin) + omin).eval()
   sess.close()
   return output
